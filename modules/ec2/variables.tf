@@ -6,3 +6,7 @@ variable "instance_type" {
 variable "ami" {
   default = "ami-062f7200baf2fa504"
 }
+
+variable "wista-project-key" {
+  default = "wista-project-key"
+}
