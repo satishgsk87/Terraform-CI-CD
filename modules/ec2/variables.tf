@@ -10,3 +10,5 @@ variable "ami" {
 variable "wista-project-key" {
   default = "wista-project-key"
 }
+
+variable "name" {}
