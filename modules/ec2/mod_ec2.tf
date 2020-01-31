@@ -3,9 +3,9 @@ resource "aws_instance" "myweb" {
    instance_type = "${var.instance_type}"
    security_groups = ["default"]
    key_name = "${var.wista-project-key}"
-   user_data = << EOF
+   user_data = <<EOF
        #! /bin/bash
-       sudo yum update -y enter
+       sudo yum update -y 
        sudo yum install git -y 
        sudo cd /home/
        sudo git clone https://github.com/satishgsk87/Terraform-CI-CD.git
@@ -14,9 +14,9 @@ resource "aws_instance" "myweb" {
        sudo yum install puppet-agent -y
        sudo export PATH=$PATH:/opt/puppetlabs/puppet/bin/
        sudo puppet apply httpd.pp 
-      EOF
+   EOF
    
    tags = {
-    Name = "${var.name}"
+    name = "${var.name}"
    }
 }
