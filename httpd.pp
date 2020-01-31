@@ -4,7 +4,7 @@ exec {'install httpd':
 }
 
 exec {'Change Text':
-  command => "sed -i 's/Test Page/Wista final project/g' /usr/share/httpd/noindex/index.html",
+  command => "sudo sed -i 's/Test Page/Wista final project/g' /usr/share/httpd/noindex/index.html",
   path => /bin/
 }
 
