@@ -3,7 +3,7 @@ resource "aws_instance" "myweb" {
    instance_type = "${var.instance_type}"
    security_groups = ["default"]
    key_name = "${var.wista-project-key}"
-   user_date = << EOF
+   user_data = << EOF
        #! /bin/bash
        sudo yum update -y enter
        sudo yum install git -y 
