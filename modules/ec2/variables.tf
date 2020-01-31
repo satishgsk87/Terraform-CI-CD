@@ -11,4 +11,6 @@ variable "wista-project-key" {
   default = "wista-project-key"
 }
 
-variable "name" {}
+variable "name" {
+  default = "new-instance"
+}
