@@ -12,7 +12,6 @@ resource "aws_instance" "myweb" {
    sudo cd /Terraform-CI-CD/
    sudo rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-pc1-el-6.noarch.rpm
    sudo yum install puppet-agent -y
-   export PATH=$PATH:/opt/puppetlabs/puppet/bin/
    sudo puppet apply httpd.pp 
    EOF
    
