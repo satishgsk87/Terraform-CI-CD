@@ -5,6 +5,7 @@ resource "aws_instance" "myweb" {
    key_name = "${var.wista-project-key}"
    user_data = <<EOF
    #! /bin/bash
+   sudo -i
    sudo yum update -y 
    sudo yum install git -y 
    sudo cd /
@@ -12,7 +13,7 @@ resource "aws_instance" "myweb" {
    sudo cd /Terraform-CI-CD/
    sudo rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-pc1-el-6.noarch.rpm
    sudo yum install puppet-agent -y
-   sudo /opt/puppetlabs/puppet/bin/puppet apply httpd.pp --debug >> /puppet.log
+   /opt/puppetlabs/puppet/bin/puppet apply httpd.pp --verbose --debug >> /puppet.log
    EOF
    
    tags = {
