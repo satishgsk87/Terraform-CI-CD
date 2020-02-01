@@ -1,38 +1,77 @@
 pipeline {
-    agent {
-        node {
-            label 'master'
+   agent any
+   
+// gets code from github repository 
 
-    stages {
-
-        stage('terraform started') {
-            steps {
-                sh 'echo "Started...!" '
-            }
-        }
-        stage('git clone') {
-            steps {
-                sh 'sudo rm -r *;sudo git clone https://github.com/satishgsk87/Terraform-CI-CD.git'
-            }
-        }
-        stage('terraform init') {
-            steps {
-                sh 'sudo /home/ec2-user/terraform init ./Terraform-CI-CD'
-            }
-        }
-        stage('terraform plan') {
-            steps {
-                sh 'ls ./jenkins; sudo /home/ec2-user/terraform plan ./Terraform-CI-CD'
-            }
-        }
-        stage('terraform ended') {
-            steps {
-                sh 'echo "Ended....!!"'
-            }
-        }
-
-        
+   stages {
+      stage('Get_Code_FRM_GIT') {
+          steps{
+    checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+    userRemoteConfigs: [[url: 'https://github.com/satishgsk87/Terraform-CI-CD.git']]])
+          }
+      }
+      
+ //performs terraform initialise 
+   
+   stage(Terraform_inti){
+    steps{
+        dir ("projects/A")
+     {
+     bat "terraform init"
     }
-}
-}
-}
+    }
+    }
+    
+    //performs terraform plan 
+    
+    stage(Terraform_plan){
+       
+    steps{
+        dir ("projects/A")
+     {
+      script{ 
+          if (plan-and-approve == 'yes' ) {
+  
+   withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', 
+   accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+   credentialsId: 'satishgsk', 
+   secretKeyVariable:   'AWS_SECRET_ACCESS_KEY']]) 
+        
+      {
+     bat "terraform plan --var name=${name} -out=out.plan"
+    }
+    }
+    }
+    }
+    
+   //approval for terraform apply  
+   
+   stage (approval){
+    steps{
+        input "approval needed"
+    }
+   }
+   
+   //Performs terraform apply 
+   
+   stage(Terraform_apply){
+    steps{
+        dir ("projects/A")
+     {
+       withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', 
+        accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+        credentialsId: 'satishgsk', 
+        secretKeyVariable:   'AWS_SECRET_ACCESS_KEY']]) 
+        
+      {
+     
+     bat "terraform apply -auto-approve out.plan "
+      }
+     }
+    }
+   }
+    }
+    }
+  
+      }
+   }
