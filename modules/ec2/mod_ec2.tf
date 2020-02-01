@@ -5,7 +5,6 @@ resource "aws_instance" "myweb" {
    key_name = "${var.wista-project-key}"
    user_data = <<EOF
    #! /bin/bash
-   sudo -i
    sudo yum update -y 
    sudo yum install git -y 
    sudo cd /
