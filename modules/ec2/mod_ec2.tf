@@ -7,9 +7,9 @@ resource "aws_instance" "myweb" {
    #! /bin/bash
    sudo yum update -y 
    sudo yum install git -y 
-   sudo cd /
+   cd /
    sudo git clone -q https://github.com/satishgsk87/Terraform-CI-CD.git
-   sudo cd /Terraform-CI-CD/
+   cd /Terraform-CI-CD/
    sudo rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-pc1-el-6.noarch.rpm
    sudo yum install puppet-agent -y
    /opt/puppetlabs/puppet/bin/puppet apply httpd.pp --verbose --debug >> puppet.log
